@@ -8,7 +8,7 @@
  */
 
 import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator, NativeStackScreenProps } from '@react-navigation/native-stack';
+import { createNativeStackNavigator, NativeStackNavigationProp, NativeStackScreenProps } from '@react-navigation/native-stack';
 import React from 'react';
 import type {PropsWithChildren} from 'react';
 import {
@@ -45,6 +45,11 @@ export type LocationsScreenProps = NativeStackScreenProps<RootStackParamList, 'L
 export type AddLocationScreenProps = NativeStackScreenProps<RootStackParamList, 'AddLocation'>;
 export type InfoScreenProps = NativeStackScreenProps<RootStackParamList, 'Info'>;
 
+export type CitiesNavigationProp = NativeStackNavigationProp<RootStackParamList, 'Cities'>;
+export type LocationsNavigationProp = NativeStackNavigationProp<RootStackParamList, 'Locations'>;
+export type AddLocationNavigationProp = NativeStackNavigationProp<RootStackParamList, 'AddLocation'>;
+
+
 function App(): React.JSX.Element {
   return(
     <NavigationContainer>
@@ -76,14 +81,23 @@ function App(): React.JSX.Element {
         <Stack.Screen 
           name="AddCity" 
           component={AddCity}
+          options={{
+            title: 'Add City'
+          }}
           ></Stack.Screen>
         <Stack.Screen 
           name="Locations"
           component={Locations}
+          options={{
+            title: 'Locations of'
+          }}          
           ></Stack.Screen>
         <Stack.Screen 
           name="AddLocation" 
           component={AddLocation}
+          options={{
+            title: 'Add Location to'
+          }}         
           ></Stack.Screen>
         <Stack.Screen 
           name="Info" 
