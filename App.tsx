@@ -9,16 +9,9 @@
 
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator, NativeStackNavigationProp, NativeStackScreenProps } from '@react-navigation/native-stack';
-import React from 'react';
-import type {PropsWithChildren} from 'react';
+import React, { useState } from 'react';
 import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
   StyleSheet,
-  Text,
-  useColorScheme,
-  View,
 } from 'react-native';
 import { Cities } from './src/HomeScreen/Cities';
 import { AddCity } from './src/AddCityScreen/AddCity';
@@ -27,9 +20,47 @@ import { AddLocation } from './src/AddLocationScreen/AddLocation';
 import { Info } from './src/InfoScreen/Info';
 import { IconButton } from 'react-native-paper';
 
+import uuid from 'react-native-uuid';
+
+// Interfaces for data content of the application
+export interface iLocation {
+  id: string;
+  name: string;
+  info: string;
+};
+
+export interface iCity {
+  id: string;
+  name: string;
+  country: string;
+  locations?: iLocation[];
+};
+
+const testLahti: iCity = {
+  id: uuid.v4.toString(),
+  name: 'Lahti',
+  country: 'Finland',
+  locations:  [
+    {
+      name: 'Hyppyrimäki',
+      info: 'Hienot nähtävyydet tornista',
+      id: uuid.v4.toString(),
+    },
+    {
+      name: 'Jäähalli',
+      info: 'Pelikaanit\ kotiareena',
+      id: uuid.v4.toString(),
+    }
+  ]
+}
+
+const testData: iCity[] = [
+  testLahti
+];
+
 // Define Navigation route parameters
 type RootStackParamList = {
-  Cities: undefined; // No route parameters
+  Cities: {cities: iCity[], addCity: (city: iCity) => void}; // No route parameters
   AddCity: undefined; // Route param placeholder
   Locations: {city: string}; // Route param placeholder
   AddLocation: {city: string}; // Route param placeholder
@@ -51,6 +82,13 @@ export type AddLocationNavigationProp = NativeStackNavigationProp<RootStackParam
 
 
 function App(): React.JSX.Element {
+  const [cities, setCities] = useState<iCity[]>(testData);
+
+  const addCity = (city: iCity) => {
+    // Placeholder
+    console.log(`adding a city ${JSON.stringify(city)}`);
+  }
+
   return(
     <NavigationContainer>
       <Stack.Navigator 
@@ -62,6 +100,7 @@ function App(): React.JSX.Element {
         <Stack.Screen
           name='Cities'
           component={Cities}
+          initialParams={{cities, addCity}}
           options={({navigation})=>({
             title: 'Cities App',
             headerLeft: () => (
