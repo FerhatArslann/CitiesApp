@@ -37,19 +37,19 @@ export interface iCity {
 };
 
 const testLahti: iCity = {
-  id: uuid.v4.toString(),
+  id: uuid.v4().toString(),
   name: 'Lahti',
   country: 'Finland',
   locations:  [
     {
       name: 'Hyppyrimäki',
       info: 'Hienot nähtävyydet tornista',
-      id: uuid.v4.toString(),
+      id: uuid.v4().toString(),
     },
     {
       name: 'Jäähalli',
       info: 'Pelikaanit\ kotiareena',
-      id: uuid.v4.toString(),
+      id: uuid.v4().toString(),
     }
   ]
 }
