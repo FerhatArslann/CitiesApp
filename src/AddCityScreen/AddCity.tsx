@@ -13,8 +13,7 @@ export const AddCity: React.FC<AddCityScreenProps> = () => {
 
   const cityRef = useRef<any>(null);
   // const countryRef = useRef<any>(null);
-
-  const {addCity} = useContext(CitiesContext);
+  // const {addCity} = useContext(CitiesContext);
 
   return(
     <View style={styles.container}>
@@ -44,7 +43,7 @@ export const AddCity: React.FC<AddCityScreenProps> = () => {
             id: uuid.v4().toString(),
             locations: []
           };
-          addCity(cityInfo);
+          // addCity(cityInfo);
           setCity('');
           setCountry('');
           // User stays in the screen and focus in the 1st input field.
