@@ -1,4 +1,4 @@
-// CitiesContext.ts
+// CitiesContext.tsx
 
 import React from "react";
 import { iCity, iLocation } from "../../App";

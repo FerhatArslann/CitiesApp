@@ -1,4 +1,4 @@
-// CitiesProvider.ts
+// CitiesProvider.tsx
 
 import { ReactNode, useState } from "react"
 import { testData } from "../Shared/TestData";
