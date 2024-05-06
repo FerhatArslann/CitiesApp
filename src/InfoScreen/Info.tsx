@@ -1,4 +1,5 @@
 // Info.tsx
+
 import { View, Text, StyleSheet } from "react-native";
 import {InfoScreenProps} from "../../App";
 

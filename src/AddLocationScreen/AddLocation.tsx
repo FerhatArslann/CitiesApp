@@ -1,4 +1,5 @@
 // AddLocation.tsx
+
 import { View, Text, StyleSheet } from "react-native";
 import { AddLocationNavigationProp, AddLocationScreenProps} from "../../App";
 import { useEffect } from "react";

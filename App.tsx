@@ -1,12 +1,5 @@
 // App.tsx
 
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- */
-
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator, NativeStackNavigationProp, NativeStackScreenProps } from '@react-navigation/native-stack';
 import React, { useState } from 'react';
@@ -21,6 +14,8 @@ import { Info } from './src/InfoScreen/Info';
 import { IconButton } from 'react-native-paper';
 
 import uuid from 'react-native-uuid';
+import { testData } from './src/Shared/TestData';
+import { CitiesProvider } from './src/Context/CitiesProvider';
 
 // Interfaces for data content of the application
 export interface iLocation {
@@ -36,31 +31,9 @@ export interface iCity {
   locations?: iLocation[];
 };
 
-const testLahti: iCity = {
-  id: uuid.v4().toString(),
-  name: 'Lahti',
-  country: 'Finland',
-  locations:  [
-    {
-      name: 'Hyppyrimäki',
-      info: 'Hienot nähtävyydet tornista',
-      id: uuid.v4().toString(),
-    },
-    {
-      name: 'Jäähalli',
-      info: 'Pelikaanit\ kotiareena',
-      id: uuid.v4().toString(),
-    }
-  ]
-}
-
-const testData: iCity[] = [
-  testLahti
-];
-
 // Define Navigation route parameters
 type RootStackParamList = {
-  Cities: {cities: iCity[], addCity: (city: iCity) => void}; // No route parameters
+  Cities: undefined; // No route parameters
   AddCity: undefined; // Route param placeholder
   Locations: {city: string}; // Route param placeholder
   AddLocation: {city: string}; // Route param placeholder
@@ -82,67 +55,68 @@ export type AddLocationNavigationProp = NativeStackNavigationProp<RootStackParam
 
 
 function App(): React.JSX.Element {
-  const [cities, setCities] = useState<iCity[]>(testData);
+  // const [cities, setCities] = useState<iCity[]>(testData);
 
-  const addCity = (city: iCity) => {
-    // Placeholder
-    console.log(`adding a city ${JSON.stringify(city)}`);
-  }
+  // const addCity = (city: iCity) => {
+  //   // Placeholder
+  //   console.log(`adding a city ${JSON.stringify(city)}`);
+  // }
 
   return(
     <NavigationContainer>
-      <Stack.Navigator 
-        initialRouteName='Cities'
-        screenOptions={{
-          headerTitleAlign: 'center',
-        }}
-        >
-        <Stack.Screen
-          name='Cities'
-          component={Cities}
-          initialParams={{cities, addCity}}
-          options={({navigation})=>({
-            title: 'Cities App',
-            headerLeft: () => (
-              <IconButton 
-                icon='information-outline'
-                onPress={() => navigation.navigate('Info')}
-              />
-            ),
-            headerRight: () => (
-              <IconButton 
-                icon='plus-circle-outline'
-                onPress={() => navigation.navigate('AddCity')}
-              />
-            )            
-          })}
-          ></Stack.Screen>
-        <Stack.Screen 
-          name="AddCity" 
-          component={AddCity}
-          options={{
-            title: 'Add City'
+      <CitiesProvider>
+        <Stack.Navigator 
+          initialRouteName='Cities'
+          screenOptions={{
+            headerTitleAlign: 'center',
           }}
-          ></Stack.Screen>
-        <Stack.Screen 
-          name="Locations"
-          component={Locations}
-          options={{
-            title: 'Locations of'
-          }}          
-          ></Stack.Screen>
-        <Stack.Screen 
-          name="AddLocation" 
-          component={AddLocation}
-          options={{
-            title: 'Add Location to'
-          }}         
-          ></Stack.Screen>
-        <Stack.Screen 
-          name="Info" 
-          component={Info}
-          ></Stack.Screen>
-      </Stack.Navigator>
+          >
+          <Stack.Screen
+            name='Cities'
+            component={Cities}
+            options={({navigation})=>({
+              title: 'Cities App',
+              headerLeft: () => (
+                <IconButton 
+                  icon='information-outline'
+                  onPress={() => navigation.navigate('Info')}
+                />
+              ),
+              headerRight: () => (
+                <IconButton 
+                  icon='plus-circle-outline'
+                  onPress={() => navigation.navigate('AddCity')}
+                />
+              )            
+            })}
+            ></Stack.Screen>
+          <Stack.Screen 
+            name="AddCity" 
+            component={AddCity}
+            options={{
+              title: 'Add City'
+            }}
+            ></Stack.Screen>
+          <Stack.Screen 
+            name="Locations"
+            component={Locations}
+            options={{
+              title: 'Locations of'
+            }}          
+            ></Stack.Screen>
+          <Stack.Screen 
+            name="AddLocation" 
+            component={AddLocation}
+            options={{
+              title: 'Add Location to'
+            }}         
+            ></Stack.Screen>
+          <Stack.Screen 
+            name="Info" 
+            component={Info}
+            ></Stack.Screen>
+        </Stack.Navigator>
+      </CitiesProvider>
     </NavigationContainer>
   );
 }
