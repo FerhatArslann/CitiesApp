@@ -4,9 +4,11 @@ import { View, Text, StyleSheet } from "react-native";
 import { CitiesNavigationProp, CitiesScreenProps } from "../../App";
 import { Button } from "react-native-paper";
 import { useNavigation } from "@react-navigation/native";
+import { useCitiesSelector } from "../Store/CitiesStore";
 
 export const Cities: React.FC<CitiesScreenProps> = ({route}) => {
   const navigation = useNavigation<CitiesNavigationProp>();
+  const cities = useCitiesSelector((state) => state.cities.allCities);
 
   //  console.log(`Cities component ${JSON.stringify(route.params.cities)}`);
   

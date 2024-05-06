@@ -3,17 +3,23 @@
 import { View, Text, StyleSheet } from "react-native";
 import { AddCityScreenProps, iCity} from "../../App";
 import { Button, TextInput } from "react-native-paper";
-import { useContext, useRef, useState } from "react";
-import { CitiesContext } from "../Context/CitiesContext";
+import { useRef, useState } from "react";
 import uuid from 'react-native-uuid';
+import { useCitiesDispatch, useCitiesSelector } from "../Store/CitiesStore";
+import { addCity } from "../Store/Slices/CitiesSlice";
 
 export const AddCity: React.FC<AddCityScreenProps> = () => {
   const [city, setCity] = useState<string>('');
   const [country, setCountry] = useState<string>('');
 
+  const cities = useCitiesSelector((state) => state.cities.allCities);
+  const dispatch = useCitiesDispatch();
+
   const cityRef = useRef<any>(null);
   // const countryRef = useRef<any>(null);
   // const {addCity} = useContext(CitiesContext);
+
+  console.log(`AddCity ${JSON.stringify(cities)}`);
 
   return(
     <View style={styles.container}>
@@ -43,7 +49,7 @@ export const AddCity: React.FC<AddCityScreenProps> = () => {
             id: uuid.v4().toString(),
             locations: []
           };
-          // addCity(cityInfo);
+          dispatch(addCity(cityInfo));
           setCity('');
           setCountry('');
           // User stays in the screen and focus in the 1st input field.
