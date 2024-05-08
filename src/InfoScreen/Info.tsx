@@ -1,12 +1,19 @@
 // Info.tsx
 
 import { View, Text, StyleSheet } from "react-native";
-import {InfoScreenProps} from "../../App";
 
-export const Info: React.FC<InfoScreenProps> = () => {
-  return(
+const developerName = "Ferhat Arslan";
+const appVersion = "1.0.0";
+
+export const Info: React.FC = () => {
+  return (
     <View style={styles.container}>
-    <Text>Info Screen</Text>
+      <Text style={styles.title}>Welcome to Cities App!</Text>
+      <View style={styles.infoContainer}>
+        <Text style={styles.infoTitle}>App Information</Text>
+        <Text style={styles.infoText}>Developed by: {developerName}</Text>
+        <Text style={styles.infoText}>Version: {appVersion}</Text>
+      </View>
     </View>
   );
 }
@@ -14,7 +21,24 @@ export const Info: React.FC<InfoScreenProps> = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
     justifyContent: 'center',
+    alignItems: 'center',
+    padding: 20
   },
+  infoContainer: {
+    marginTop: 30,
+    alignItems: 'center'
+  },
+  title: {
+    fontSize: 26,
+    fontWeight: 'bold',
+  },
+  infoTitle: {
+    fontSize: 22,
+    fontWeight: 'bold',
+    marginBottom: 10,
+  },
+  infoText: {
+    fontSize: 18,
+  }
 });
