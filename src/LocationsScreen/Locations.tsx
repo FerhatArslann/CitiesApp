@@ -5,8 +5,7 @@ import { View, Text, FlatList, StyleSheet, Alert } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { useCitiesSelector, useCitiesDispatch } from "../Store/CitiesStore";
 import { IconButton } from 'react-native-paper';
-import { deleteLocation } from "../Store/Slices/CitiesSlice";
-import { iCity, iLocation, RootStackParamList } from '../../App'; // Make sure these types are correctly imported from App.tsx
+import { iCity, RootStackParamList } from '../../App';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
 interface LocationsScreenProps {
@@ -23,19 +22,6 @@ const Locations: React.FC<LocationsScreenProps> = ({ route }) => {
   const dispatch = useCitiesDispatch();
   const cities = useCitiesSelector(state => state.cities.allCities);
   const cityData = cities.find((c: iCity) => c.name === city);
-
-  const handleDeleteLocation = (location: iLocation) => {
-    Alert.alert("Confirm Delete", `Are you sure you want to delete the location ${location.name}?`, [
-      { text: "Cancel", style: "cancel" },
-      {
-        text: "Delete",
-        onPress: () => {
-          dispatch(deleteLocation({ cityId: city, locationId: location.id }));
-        },
-        style: 'destructive'
-      }
-    ]);
-  };
 
   useEffect(() => {
     navigation.setOptions({
@@ -60,11 +46,6 @@ const Locations: React.FC<LocationsScreenProps> = ({ route }) => {
               <Text style={styles.locationName}>{item.name}</Text>
               <Text style={styles.locationInfo}>{item.info}</Text>
             </View>
-            <IconButton
-              icon="delete"
-              onPress={() => handleDeleteLocation(item)}
-              style={styles.deleteIcon}
-            />
           </View>
         )}
       />
@@ -95,9 +76,6 @@ const styles = StyleSheet.create({
   locationInfo: {
     fontSize: 14
   },
-  deleteIcon: {
-    // Customize as needed
-  }
 });
 
 export default Locations;

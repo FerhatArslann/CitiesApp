@@ -26,29 +26,23 @@ export const AddLocation: React.FC<AddLocationScreenProps> = ({ route }) => {
   const cities = useCitiesSelector(state => state.cities.allCities);
   const cityData = cities.find((c: { name: string; }) => c.name === route.params.city);
 
-  const nameRef = useRef<any>(null);
-
   const handleAddLocation = () => {
-    // Check if location already exists
     const existingLocation = cityData?.locations?.some((loc: { name: string; }) => loc.name.toLowerCase() === name.toLowerCase());
     if (existingLocation) {
       Alert.alert("Location Exists", "This location already exists in this city.", [{ text: "OK" }]);
       return;
     }
 
-    if (name.trim() && description.trim()) {
-      const newLocation: iLocation = {
-        id: uuid.v4().toString(),
-        name,
-        info: description
-      };
-      dispatch(addLocation({ cityId: route.params.city, location: newLocation }));
-      setName('');
-      setDescription('');
-      if (nameRef.current) {
-        nameRef.current.focus();
-      }
-    }
+    const newLocation: iLocation = {
+      id: uuid.v4().toString(),
+      name,
+      info: description
+    };
+
+    dispatch(addLocation({ cityId: cityData?.id, location: newLocation }));
+    navigation.goBack();
+    setName('');
+    setDescription('');
   };
 
   return (
@@ -59,7 +53,7 @@ export const AddLocation: React.FC<AddLocationScreenProps> = ({ route }) => {
         value={name}
         onChangeText={setName}
         style={styles.input}
-        ref={nameRef}
+        ref={useRef(null)}
         autoCapitalize="words"
         mode="outlined"
       />
