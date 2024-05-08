@@ -6,7 +6,8 @@ import { useNavigation } from "@react-navigation/native";
 import { useCitiesSelector, useCitiesDispatch } from "../Store/CitiesStore";
 import { IconButton } from 'react-native-paper';
 import { deleteLocation } from "../Store/Slices/CitiesSlice";
-import { iCity, iLocation } from '../../App';  // Varmista, että nämä tyypit ovat määritelty App.tsx:ssä
+import { iCity, iLocation, RootStackParamList } from '../../App'; // Make sure these types are correctly imported from App.tsx
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
 interface LocationsScreenProps {
   route: {
@@ -18,17 +19,19 @@ interface LocationsScreenProps {
 
 const Locations: React.FC<LocationsScreenProps> = ({ route }) => {
   const { city } = route.params;
-  const navigation = useNavigation();
+  const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList, 'Locations'>>();
   const dispatch = useCitiesDispatch();
   const cities = useCitiesSelector(state => state.cities.allCities);
-  const cityData = cities.find((c: { name: string; }) => c.name === city);
+  const cityData = cities.find((c: iCity) => c.name === city);
 
   const handleDeleteLocation = (location: iLocation) => {
     Alert.alert("Confirm Delete", `Are you sure you want to delete the location ${location.name}?`, [
       { text: "Cancel", style: "cancel" },
       {
         text: "Delete",
-        onPress: () => dispatch(deleteLocation({ cityId: city, locationId: location.id })),
+        onPress: () => {
+          dispatch(deleteLocation({ cityId: city, locationId: location.id }));
+        },
         style: 'destructive'
       }
     ]);

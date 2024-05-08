@@ -32,7 +32,7 @@ export interface iCity {
 };
 
 // Define Navigation route parameters
-type RootStackParamList = {
+export type RootStackParamList = {
   Cities: undefined; // No route parameters
   AddCity: undefined; // Route param placeholder
   Locations: {city: string}; // Route param placeholder

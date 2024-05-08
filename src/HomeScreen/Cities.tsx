@@ -1,26 +1,24 @@
 // Cities.tsx
 
 import React from 'react';
-import { View, StyleSheet, FlatList, Alert } from "react-native";
+import { View, FlatList, Alert, StyleSheet } from "react-native";
 import { List, IconButton } from "react-native-paper";
 import { useNavigation } from "@react-navigation/native";
 import { useCitiesSelector, useCitiesDispatch } from "../Store/CitiesStore";
 import { deleteCity } from "../Store/Slices/CitiesSlice";
 import { iCity } from '../../App';
+import { RootStackParamList } from "../../App";
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
 export const Cities: React.FC = () => {
-  const navigation = useNavigation();
+  const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList, 'Cities'>>();
   const dispatch = useCitiesDispatch();
   const cities = useCitiesSelector(state => state.cities.allCities);
 
   const handleDeleteCity = (cityId: string) => {
     Alert.alert("Confirm Delete", "Are you sure you want to delete this city?", [
       { text: "Cancel", style: "cancel" },
-      {
-        text: "Delete",
-        onPress: () => dispatch(deleteCity(cityId)),
-        style: 'destructive'
-      }
+      { text: "Delete", onPress: () => dispatch(deleteCity(cityId)), style: 'destructive' }
     ]);
   };
 
@@ -29,7 +27,7 @@ export const Cities: React.FC = () => {
       title={`${item.name}, ${item.country}`}
       description={`Click to see locations in ${item.name}`}
       left={props => <List.Icon {...props} icon="city" />}
-      onPress={() => navigation.navigate('Locations', { city: item.name })} // Käytetään objektia
+      onPress={() => navigation.navigate('Locations', { city: item.name })}
       right={props => (
         <IconButton
           {...props}
@@ -40,7 +38,6 @@ export const Cities: React.FC = () => {
     />
   );
 
-  // Renderöi erottimen jokaisen listaelementin välille
   const renderSeparator = () => (
     <View style={styles.separator} />
   );
