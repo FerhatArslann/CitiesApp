@@ -8,38 +8,40 @@ import uuid from 'react-native-uuid';
 import { useCitiesDispatch, useCitiesSelector } from "../Store/CitiesStore";
 import { addCity } from "../Store/Slices/CitiesSlice";
 
+// Komponentti kaupungin lisäämiselle
 export const AddCity: React.FC<AddCityScreenProps> = () => { 
   const [city, setCity] = useState<string>('');
   const [country, setCountry] = useState<string>('');
 
-  const cities = useCitiesSelector((state) => state.cities.allCities);
-  const dispatch = useCitiesDispatch();
+  const cities = useCitiesSelector((state) => state.cities.allCities); // Haetaan kaupunkien tila
+  const dispatch = useCitiesDispatch(); // Haetaan dispatch-funktio toimintojen suorittamiseen
 
-  const cityRef = useRef<any>(null);
+  const cityRef = useRef<any>(null); 
 
+  // Funktio kaupungin lisäämiseen
   const handleAddCity = () => {
-    // Create a city info object
     const cityInfo: iCity = {
       name: city,
       country: country,
       id: uuid.v4().toString(),
       locations: []
     };
-    // Check if city already exists
+    // Tarkistetaan, onko kaupunki jo olemassa
     if (cities.some((c: { name: string; }) => c.name === cityInfo.name)) {
       Alert.alert("City Exists", "This city already exists in the list.", [{ text: "OK" }]);
       return;
     }
-    // Dispatch the action to add the city
+    // Lisätään kaupunki Reduxin kautta
     dispatch(addCity(cityInfo));
     setCity('');
     setCountry('');
-    // Refocus the city input field
-    cityRef.current?.focus();
+    cityRef.current?.focus(); // Asetetaan fokus takaisin kaupungin nimikenttään
   };
 
+  // Konsoliloki (debuggausta varten)
   console.log(`AddCity ${JSON.stringify(cities)}`);
 
+  // Komponentin renderöinti
   return(
     <View style={styles.container}>
       <Text style={styles.title}>Add details of the city</Text>
@@ -69,6 +71,7 @@ export const AddCity: React.FC<AddCityScreenProps> = () => {
   );
 }
 
+// Tyylitiedot
 const styles = StyleSheet.create({
   container: {
     flex: 1,

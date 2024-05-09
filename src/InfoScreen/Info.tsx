@@ -2,9 +2,11 @@
 
 import { View, Text, StyleSheet } from "react-native";
 
+// Kehittäjän nimi ja sovelluksen versio
 const developerName = "Ferhat Arslan";
 const appVersion = "1.0.0";
 
+// Info-komponentti, joka esittelee sovelluksen yleistä informaatiota
 export const Info: React.FC = () => {
   return (
     <View style={styles.container}>
@@ -18,6 +20,7 @@ export const Info: React.FC = () => {
   );
 }
 
+// Tyylien määrittely Info-komponentille
 const styles = StyleSheet.create({
   container: {
     flex: 1,

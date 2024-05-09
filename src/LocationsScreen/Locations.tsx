@@ -8,6 +8,7 @@ import { IconButton } from 'react-native-paper';
 import { iCity, RootStackParamList } from '../../App';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
+// Komponentin props-tyypitys
 interface LocationsScreenProps {
   route: {
     params: {
@@ -16,17 +17,21 @@ interface LocationsScreenProps {
   };
 }
 
+// Sijaintinäkymäkomponentti
 const Locations: React.FC<LocationsScreenProps> = ({ route }) => {
-  const { city } = route.params;
-  const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList, 'Locations'>>();
-  const dispatch = useCitiesDispatch();
-  const cities = useCitiesSelector(state => state.cities.allCities);
-  const cityData = cities.find((c: iCity) => c.name === city);
+  const { city } = route.params; // Route-parametrien purku
+  const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList, 'Locations'>>(); // Navigaation hook
+  const dispatch = useCitiesDispatch(); // Dispatch-hook Redux-tilan muokkaamiseen
+  const cities = useCitiesSelector(state => state.cities.allCities); // Kaupunkien tilan haku
+  const cityData = cities.find((c: iCity) => c.name === city); // Etsitään aktiivinen kaupunki
 
+  // Asetetaan navigointivalikko efekti-hookin avulla
   useEffect(() => {
     navigation.setOptions({
-      title: `Locations of ${city}`,
-      headerRight: () => (
+      title: `Locations of ${city}`, // Otsikon asetus
+      // Oikean yläkulman painike
+      headerRight: () => ( 
+        // Siirtyminen lisäysnäkymään
         <IconButton
           icon='plus-circle-outline'
           onPress={() => navigation.navigate('AddLocation', { city })}
@@ -35,6 +40,7 @@ const Locations: React.FC<LocationsScreenProps> = ({ route }) => {
     });
   }, [city, navigation]);
 
+  // Komponentin renderöinti
   return (
     <View style={styles.container}>
       <FlatList
@@ -53,6 +59,7 @@ const Locations: React.FC<LocationsScreenProps> = ({ route }) => {
   );
 };
 
+// Tyylit
 const styles = StyleSheet.create({
   container: {
     flex: 1,

@@ -17,7 +17,7 @@ import store, { persistor } from './src/Store/CitiesStore';
 import { PersistGate } from 'redux-persist/integration/react';
 import { NativeStackNavigationProp, NativeStackScreenProps } from 'react-native-screens/lib/typescript/native-stack/types';
 
-// Interfaces for data content of the application
+// Sovelluksen datarakenteiden määrittely
 export interface iLocation {
   id: string;
   name: string;
@@ -31,7 +31,7 @@ export interface iCity {
   locations?: iLocation[];
 };
 
-// Define Navigation route parameters
+// Navigointireittien tyypitys
 export type RootStackParamList = {
   Cities: undefined; // No route parameters
   AddCity: undefined; // Route param placeholder
@@ -40,7 +40,7 @@ export type RootStackParamList = {
   Info: undefined;
 };
 
-// RootStackParamList provides the type safety
+// Luodaan stack-navigaattori
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 export type CitiesScreenProps = NativeStackScreenProps<RootStackParamList, 'Cities'>;
@@ -53,7 +53,7 @@ export type CitiesNavigationProp = NativeStackNavigationProp<RootStackParamList,
 export type LocationsNavigationProp = NativeStackNavigationProp<RootStackParamList, 'Locations'>;
 export type AddLocationNavigationProp = NativeStackNavigationProp<RootStackParamList, 'AddLocation'>;
 
-
+// Sovelluksen pääkomponentti
 function App(): React.JSX.Element {
   return (
     <Provider store={store}>
@@ -66,7 +66,7 @@ function App(): React.JSX.Element {
                 options={({ navigation }) => ({
                   title: 'Cities App',
                   headerLeft: () => (
-                    <IconButton
+                    <IconButton 
                       icon='information-outline'
                       onPress={() => navigation.navigate('Info')}
                     />
@@ -111,6 +111,7 @@ function App(): React.JSX.Element {
   );
 }
 
+// Sovelluksen yleiset tyylit
 const styles = StyleSheet.create({
   container: {
     flex: 1,

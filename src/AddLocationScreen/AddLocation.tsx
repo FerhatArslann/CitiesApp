@@ -9,6 +9,7 @@ import uuid from 'react-native-uuid';
 import { addLocation } from '../Store/Slices/CitiesSlice';
 import { iLocation } from '../../App';
 
+// Props-tyyppimäärittely komponentille
 interface AddLocationScreenProps {
   route: {
     params: {
@@ -17,34 +18,41 @@ interface AddLocationScreenProps {
   };
 }
 
+// Sijainnin lisäyskomponentti
 export const AddLocation: React.FC<AddLocationScreenProps> = ({ route }) => {
-  const [name, setName] = useState<string>('');
-  const [description, setDescription] = useState<string>('');
-  const navigation = useNavigation();
-  const dispatch = useCitiesDispatch();
+  const [name, setName] = useState<string>(''); // Sijainnin nimen tila
+  const [description, setDescription] = useState<string>(''); // Sijainnin kuvauksen tila
+  const navigation = useNavigation(); // Navigointi
+  const dispatch = useCitiesDispatch(); // Reduxin dispatch-funktio
 
+  // Haetaan aktiiviset kaupungit
   const cities = useCitiesSelector(state => state.cities.allCities);
   const cityData = cities.find((c: { name: string; }) => c.name === route.params.city);
 
+  // Käsittelee uuden sijainnin lisäämisen
   const handleAddLocation = () => {
+    // Tarkistetaan, onko sijainti jo olemassa
     const existingLocation = cityData?.locations?.some((loc: { name: string; }) => loc.name.toLowerCase() === name.toLowerCase());
     if (existingLocation) {
       Alert.alert("Location Exists", "This location already exists in this city.", [{ text: "OK" }]);
       return;
     }
 
+    // Luo uusi sijaintiobjekti
     const newLocation: iLocation = {
       id: uuid.v4().toString(),
       name,
       info: description
     };
 
+    // Lisää sijainnin ja palaa edelliseen näkymään
     dispatch(addLocation({ cityId: cityData?.id, location: newLocation }));
     navigation.goBack();
     setName('');
     setDescription('');
   };
 
+  // Komponentin renderöinti
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Add location details to the {route.params.city}</Text>
@@ -76,6 +84,7 @@ export const AddLocation: React.FC<AddLocationScreenProps> = ({ route }) => {
   );
 };
 
+// Tyylitiedot
 const styles = StyleSheet.create({
   container: {
     flex: 1,
