@@ -35,6 +35,8 @@ https://www.youtube.com/watch?v=maBmZd6BL9E
 ## Quick Start
 1. **Install dependencies:**
    ```bash
+   git clone https://github.com/FerhatArslann/CitiesApp.git
+   cd CitiesApp
    npm install
    # or
    yarn install
